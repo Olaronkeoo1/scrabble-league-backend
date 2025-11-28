@@ -1,0 +1,63 @@
+.rankings {
+  animation: fadeIn 0.3s ease-in;
+}
+
+.rankings h1 {
+  color: #333;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.standings-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.standings-table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.standings-table th {
+  padding: 1.2rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.standings-table td {
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid #eee;
+}
+
+.standings-table tbody tr {
+  transition: background-color 0.2s;
+}
+
+.standings-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.standings-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.standings-table td.points {
+  font-weight: bold;
+  color: #667eea;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .standings-table {
+    font-size: 0.9rem;
+  }
+
+  .standings-table th,
+  .standings-table td {
+    padding: 0.8rem;
+  }
+}
