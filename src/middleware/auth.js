@@ -2,26 +2,26 @@ import jwt from 'jsonwebtoken';
 import { supabase } from '../server.js';
 
 export async function verifyToken(req, res, next) {
-  const token = req.headers.authorization?.split('Bearer ')[1];
+  const authHeader = req.headers.authorization || '';
 
-  if (!token) {
+  if (!authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'No token provided' });
   }
 
   const token = authHeader.split(' ')[1];
 
   try {
-    // Verify token with Supabase
     const { data, error } = await supabase.auth.getUser(token);
 
-    if (error || !data.user) {
+    if (error || !data?.user) {
       return res.status(401).json({ error: 'Invalid token' });
     }
 
     req.user = data.user;
     next();
   } catch (err) {
-    res.status(401).json({ error: 'Token verification failed' });
+    console.error('verifyToken error', err);
+    return res.status(401).json({ error: 'Token verification failed' });
   }
 }
 

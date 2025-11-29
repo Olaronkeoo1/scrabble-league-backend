@@ -57,4 +57,34 @@ router.get('/top/:limit', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+app.post('/api/league/add-player', async (req, res) => {
+  try {
+    const { player_id } = req.body;
+    if (!player_id) {
+      return res.status(400).json({ error: 'player_id is required' });
+    }
+
+    const { data, error } = await supabase
+      .from('league_standings')
+      .insert({
+        player_id,
+        wins: 0,
+        losses: 0,
+        draws: 0,
+        points: 0,
+        games_played: 0,
+        position: 1,
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    console.error('add-player error', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 export default router;

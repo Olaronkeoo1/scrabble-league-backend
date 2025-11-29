@@ -120,6 +120,11 @@ router.get('/history/:playerId', async (req, res) => {
   }
 });
 
+router.get('/', (req, res) => {
+  res.json({ message: 'Matches root endpoint' });
+});
+
+
 // Helper function to update standings
 async function updateStandings(match) {
   const { player1_id, player2_id, winner } = match;
