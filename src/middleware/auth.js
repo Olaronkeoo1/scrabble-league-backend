@@ -8,6 +8,8 @@ export async function verifyToken(req, res, next) {
     return res.status(401).json({ error: 'No token provided' });
   }
 
+  const token = authHeader.split(' ')[1];
+
   try {
     // Verify token with Supabase
     const { data, error } = await supabase.auth.getUser(token);
