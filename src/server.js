@@ -1,5 +1,4 @@
 
-
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -15,25 +14,26 @@ export const supabase = createClient(
   process.env.SUPABASE_SERVICE_KEY  // use service key on backend
 );
 
+// Middleware
+app.use(cors({
+  origin: [
+    'http://localhost:3000',              // for local dev
+    'https://scrabble-league.vercel.app'  // for production
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+app.use(express.json());
 
 // Routes
 import playerRoutes from './routes/players.js';
 import matchRoutes from './routes/matches.js';
 import leagueRoutes from './routes/league.js';
 
-// Middleware
 import { verifyToken } from './middleware/auth.js';
 
-
-
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true,
-}));
-
-app.use(express.json());
-
-// Routes
 app.use('/api/players', playerRoutes);
 app.use('/api/matches', matchRoutes);
 app.use('/api/league', leagueRoutes);
@@ -42,7 +42,7 @@ app.use('/api/league', leagueRoutes);
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
-  
+
 app.post('/api/league/add-player', async (req, res) => {
   const { player_id } = req.body;
   try {
@@ -64,6 +64,61 @@ app.post('/api/league/add-player', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+
+
+router.get('/stats/:playerId', async (req, res) => {
+  try {
+    const { playerId } = req.params;
+
+    const { data: standing, error: standingError } = await supabase
+      .from('league_standings')
+      .select('wins, losses, draws, points, games_played')
+      .eq('player_id', playerId)
+      .single();
+
+    if (standingError) throw standingError;
+
+    const totalGames = standing.games_played || 0;
+    const winRate = totalGames
+      ? standing.wins / totalGames
+      : 0;
+
+    res.json({
+      wins: standing.wins,
+      losses: standing.losses,
+      draws: standing.draws,
+      points: standing.points,
+      gamesPlayed: totalGames,
+      winRate,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+import sgMail from '@sendgrid/mail';
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+const msg = {
+  to: 'bakareolaronke@gmail.com',
+  from: 'bakareanjolaoluwa23@gmail.com',
+  subject: 'Test Email',
+  text: 'Hello from Scrabble League!',
+};
+
+await sgMail.send(msg);
+sgMail
+  .send(msg)
+  .then(() => {
+    console.log('Email sent')
+  })
+  .catch((error) => {
+    console.error(error)
+  })
+
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
