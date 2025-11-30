@@ -7,13 +7,11 @@ import './Dashboard.css';
 
 function Dashboard() {
   const [player, setPlayer] = useState(null);
-  const [stats, setStats] = useState(null);
   const [upcomingMatches, setUpcomingMatches] = useState([]);
   const [loading, setLoading] = useState(true);
+const [playerStats, setPlayerStats] = useState(null);
 
-
-
-  useEffect(() => {
+useEffect(() => {
   const fetchData = async () => {
     try {
       const profileRes = await playerAPI.getProfile();
@@ -22,6 +20,9 @@ function Dashboard() {
 
       const statsRes = await leagueAPI.getStats();
       setStats(statsRes.data);
+
+      const playerStatsRes = await leagueAPI.getPlayerStats(currentPlayer.id);
+      setPlayerStats(playerStatsRes.data);
 
       const upcomingRes = await matchAPI.getUpcoming(currentPlayer.id);
       setUpcomingMatches(upcomingRes.data);
@@ -36,6 +37,7 @@ function Dashboard() {
 }, []);
 
 
+  
 
   if (loading) return <div>Loading...</div>;
 
