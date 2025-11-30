@@ -1,5 +1,8 @@
 .admin {
   animation: fadeIn 0.3s ease-in;
+  max-width: 100%;          /* NEW */
+  padding: 1rem;            /* NEW */
+  box-sizing: border-box;   /* NEW */
 }
 
 .admin h1 {
@@ -14,6 +17,8 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 2rem;
   margin-bottom: 2rem;
+  max-width: 100%;          /* NEW */
+  box-sizing: border-box;   /* NEW */
 }
 
 .admin-section h2 {
@@ -65,6 +70,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1.5rem;
+  table-layout: fixed;         /* NEW: force columns to fit */
 }
 
 table thead {
@@ -81,6 +87,13 @@ table th {
 table td {
   padding: 1rem;
   border-bottom: 1px solid #eee;
+}
+
+/* NEW: allow long text (emails, names) to wrap instead of pushing width */
+table th,
+table td {
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 table input[type="number"] {
@@ -106,5 +119,21 @@ table tbody tr:hover {
   table th,
   table td {
     padding: 0.8rem;
+  }
+
+  .admin-section {
+    padding: 1.5rem;          /* NEW: a bit tighter on mobile */
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+  table {
+    font-size: 0.8rem;
+  }
+
+  table th,
+  table td {
+    padding: 0.6rem;
   }
 }
