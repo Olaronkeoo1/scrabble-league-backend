@@ -1,39 +1,63 @@
+/* Base: mobile-first */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .rankings {
   animation: fadeIn 0.3s ease-in;
-  max-width: 100%;           /* NEW */
-  overflow-x: hidden;        /* NEW */
-  padding: 1rem;             /* NEW */
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
 .rankings h1 {
   color: #333;
-  margin-bottom: 2rem;
-  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  text-align: left;
 }
 
+/* Wrap each table so it scrolls horizontally if needed on small screens */
+.standings-wrapper {
+  width: 100%;
+  overflow-x: auto;          /* allow horizontal scroll on narrow screens */
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1.25rem;
+}
+
+/* Table styles */
 .standings-table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
+  background: #fff;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  table-layout: fixed;       /* NEW: force columns to fit */
+  table-layout: fixed;
+  font-size: 0.85rem;
 }
 
 .standings-table thead {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  color: #fff;
+}
+
+.standings-table th,
+.standings-table td {
+  padding: 0.75rem 0.9rem;
+  text-align: left;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 .standings-table th {
-  padding: 1.2rem;
-  text-align: left;
   font-weight: 600;
 }
 
 .standings-table td {
-  padding: 1rem 1.2rem;
   border-bottom: 1px solid #eee;
 }
 
@@ -52,29 +76,20 @@
 .standings-table td.points {
   font-weight: bold;
   color: #667eea;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
-/* NEW: allow content to wrap so table doesn't go wider than screen */
-.standings-table th,
-.standings-table td {
-  word-wrap: break-word;
-  word-break: break-word;
-}
-
-@media (max-width: 768px) {
-  .standings-table {
-    font-size: 0.9rem;
-  }
-
-  .standings-table th,
-  .standings-table td {
-    padding: 0.8rem;
-  }
-}
-
-/* NEW: extra tightening on very small phones */
+/* Small phones tweaks */
 @media (max-width: 480px) {
+  .rankings {
+    padding: 0.85rem;
+  }
+
+  .rankings h1 {
+    font-size: 1.35rem;
+    text-align: center;
+  }
+
   .standings-table {
     font-size: 0.8rem;
   }
@@ -83,9 +98,42 @@
   .standings-table td {
     padding: 0.6rem;
   }
+}
+
+/* Tablet and up: more breathing room */
+@media (min-width: 768px) {
+  .rankings {
+    max-width: 960px;
+    padding: 1.5rem;
+  }
 
   .rankings h1 {
-    font-size: 1.5rem;
-    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .standings-table {
+    font-size: 0.9rem;
+  }
+
+  .standings-table th,
+  .standings-table td {
+    padding: 0.9rem 1.1rem;
+  }
+}
+
+/* Desktop: wider layout */
+@media (min-width: 1024px) {
+  .rankings {
+    max-width: 1160px;
+    padding: 2rem 1.5rem;
+  }
+
+  .rankings h1 {
+    font-size: 2rem;
+  }
+
+  .standings-table td.points {
+    font-size: 1.1rem;
   }
 }
