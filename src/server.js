@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
+import leagueRouter from './routes/league.js';
 
 dotenv.config();
 
@@ -30,20 +31,20 @@ app.use(express.json());
 // Routes
 import playerRoutes from './routes/players.js';
 import matchRoutes from './routes/matches.js';
-import leagueRoutes from './routes/league.js';
+import leagueRouter from './routes/league.js';
 
 import { verifyToken } from './middleware/auth.js';
 
 app.use('/api/players', playerRoutes);
 app.use('/api/matches', matchRoutes);
-app.use('/api/league', leagueRoutes);
+app.use('/api/league', leagueRouter);
 
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-app.post('/api/league/add-player', async (req, res) => {
+router.post('/api/league/add-player', async (req, res) => {
   const { player_id } = req.body;
   try {
     const { error } = await supabase
@@ -99,6 +100,7 @@ router.get('/stats/:playerId', async (req, res) => {
 
 
 import sgMail from '@sendgrid/mail';
+import router from './routes/league.js';
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 

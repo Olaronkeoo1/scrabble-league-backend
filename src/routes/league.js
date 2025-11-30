@@ -58,7 +58,7 @@ router.get('/top/:limit', async (req, res) => {
   }
 });
 
-app.post('/api/league/add-player', async (req, res) => {
+router.post('/add-player', async (req, res) => {
   try {
     const { player_id } = req.body;
     if (!player_id) {
