@@ -5,8 +5,13 @@ import './Rankings.css';
 function Rankings() {
   const [standings, setStandings] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+ 
+
 
   useEffect(() => {
+      console.log('Standings data:', standings);
+}, [standings]);
     const fetchStandings = async () => {
       try {
         const res = await leagueAPI.getStandings();
@@ -41,8 +46,8 @@ function Rankings() {
         <tbody>
   {standings.map((row, idx) => (
     <tr key={row.id}>
-     <td>{idx + 1}</td>
-      <td>{row.player_id}</td> {/* later you can replace this with the real name */}
+      <td>{row.position ?? idx + 1}</td>
+      <td>{row.players?.display_name || row.player_id}</td> {/* <- change */}
       <td>{row.games_played}</td>
       <td>{row.wins}</td>
       <td>{row.draws}</td>
@@ -51,7 +56,6 @@ function Rankings() {
     </tr>
   ))}
 </tbody>
-
       </table>
     </div>
   );
