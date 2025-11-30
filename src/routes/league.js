@@ -134,7 +134,7 @@ router.get('/player-stats/:playerId', async (req, res) => {
 
     const { data, error } = await supabase
       .from('league_standings')
-      .select('positions, points, wins, draws, losses')
+      .select('position, points, wins, draws, losses')
       .eq('player_id', playerId)
       .single();
 
