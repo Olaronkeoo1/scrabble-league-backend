@@ -5,11 +5,14 @@ import './Dashboard.css';
 
 
 
+
 function Dashboard() {
   const [player, setPlayer] = useState(null);
+  const [stats, setStats] = useState(null);              // NEW
+  const [playerStats, setPlayerStats] = useState(null);
   const [upcomingMatches, setUpcomingMatches] = useState([]);
   const [loading, setLoading] = useState(true);
-const [playerStats, setPlayerStats] = useState(null);
+
 
 useEffect(() => {
   const fetchData = async () => {
@@ -44,35 +47,54 @@ useEffect(() => {
   return (
     <div className="dashboard">
       <h1>Welcome, {player?.display_name}</h1>
-      
       <div className="dashboard-grid">
         <div className="card">
           <h2>Your Stats</h2>
-          {stats && (
+          {playerStats && (
             <div className="stats">
               <div className="stat">
                 <span className="label">Position</span>
-                <span className="value">#{stats.position}</span>
+                <span className="value">#{playerStats.position}</span>
               </div>
               <div className="stat">
                 <span className="label">Points</span>
-                <span className="value">{stats.points}</span>
+                <span className="value">{playerStats.points}</span>
               </div>
               <div className="stat">
                 <span className="label">Wins</span>
-                <span className="value">{stats.wins}</span>
+                <span className="value">{playerStats.wins}</span>
               </div>
               <div className="stat">
                 <span className="label">Draws</span>
-                <span className="value">{stats.draws}</span>
+                <span className="value">{playerStats.draws}</span>
               </div>
               <div className="stat">
                 <span className="label">Losses</span>
-                <span className="value">{stats.losses}</span>
+                <span className="value">{playerStats.losses}</span>
               </div>
             </div>
           )}
         </div>
+
+        <div className="card">
+  <h2>League Overview</h2>
+  {stats && (
+    <div className="stats">
+      <div className="stat">
+        <span className="label">Players</span>
+        <span className="value">{stats.totalPlayers}</span>
+      </div>
+      <div className="stat">
+        <span className="label">Matches</span>
+        <span className="value">{stats.totalMatches}</span>
+      </div>
+      <div className="stat">
+        <span className="label">Upcoming</span>
+        <span className="value">{stats.upcomingMatches}</span>
+      </div>
+    </div>
+  )}
+</div>
 
 
 
