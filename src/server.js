@@ -40,6 +40,7 @@ app.use('/api/players', playerRoutes);
 app.use('/api/matches', matchRoutes);
 app.use('/api/league', leagueRouter);
 
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
