@@ -146,7 +146,7 @@ router.get('/player-stats/:playerId', async (req, res) => {
       wins: data.wins || 0,
       draws: data.draws || 0,
       losses: data.losses || 0,
-      ,
+      
     });
   } catch (err) {
     console.error('player-stats error', err);
