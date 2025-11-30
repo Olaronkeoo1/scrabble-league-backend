@@ -127,6 +127,34 @@ router.get('/standings', async (req, res) => {
   }
 });
 
+// GET /api/league/player-stats/:playerId
+router.get('/player-stats/:playerId', async (req, res) => {
+  try {
+    const { playerId } = req.params;
+
+    const { data, error } = await supabase
+      .from('league_standings')
+      .select('positions, points, wins, draws, losses')
+      .eq('player_id', playerId)
+      .single();
+
+    if (error) throw error;
+
+    res.json({
+      position: data.position || 0,
+      points: data.points || 0,
+      wins: data.wins || 0,
+      draws: data.draws || 0,
+      losses: data.losses || 0,
+      ,
+    });
+  } catch (err) {
+    console.error('player-stats error', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 
 export default router;
 
