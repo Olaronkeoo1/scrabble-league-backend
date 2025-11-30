@@ -62,6 +62,18 @@ form {
   margin-bottom: 1.5rem;
 }
 
+/* NEW: keep admin forms within width */
+.admin-section form {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* NEW: prevent selects from widening layout */
+.admin-section select {
+  max-width: 100%;
+}
+
 form button {
   grid-column: span 1;
 }
@@ -89,7 +101,7 @@ table td {
   border-bottom: 1px solid #eee;
 }
 
-/* NEW: allow long text (emails, names) to wrap instead of pushing width */
+/* NEW: allow long text (names/emails) to wrap instead of causing side scroll */
 table th,
 table td {
   word-wrap: break-word;
@@ -105,6 +117,23 @@ table input[type="number"] {
 
 table tbody tr:hover {
   background-color: #f9f9f9;
+}
+
+/* NEW: Upcoming matches specific wrapper and table */
+.upcoming-matches-wrapper {
+  max-height: 60vh;      /* limit vertical size but keep all columns */
+  overflow-y: auto;
+}
+
+.upcoming-matches-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.upcoming-matches-table th,
+.upcoming-matches-table td {
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 @media (max-width: 768px) {
@@ -123,6 +152,14 @@ table tbody tr:hover {
 
   .admin-section {
     padding: 1.5rem;          /* NEW: a bit tighter on mobile */
+  }
+
+  .form-group {
+    width: 100%;              /* NEW: full-width fields on mobile */
+  }
+
+  .upcoming-matches-wrapper {
+    max-height: 50vh;
   }
 }
 
