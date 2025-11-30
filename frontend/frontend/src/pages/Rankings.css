@@ -1,5 +1,8 @@
 .rankings {
   animation: fadeIn 0.3s ease-in;
+  max-width: 100%;           /* NEW */
+  overflow-x: hidden;        /* NEW */
+  padding: 1rem;             /* NEW */
 }
 
 .rankings h1 {
@@ -15,6 +18,7 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  table-layout: fixed;       /* NEW: force columns to fit */
 }
 
 .standings-table thead {
@@ -51,6 +55,13 @@
   font-size: 1.1rem;
 }
 
+/* NEW: allow content to wrap so table doesn't go wider than screen */
+.standings-table th,
+.standings-table td {
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
 @media (max-width: 768px) {
   .standings-table {
     font-size: 0.9rem;
@@ -59,5 +70,22 @@
   .standings-table th,
   .standings-table td {
     padding: 0.8rem;
+  }
+}
+
+/* NEW: extra tightening on very small phones */
+@media (max-width: 480px) {
+  .standings-table {
+    font-size: 0.8rem;
+  }
+
+  .standings-table th,
+  .standings-table td {
+    padding: 0.6rem;
+  }
+
+  .rankings h1 {
+    font-size: 1.5rem;
+    text-align: center;
   }
 }
