@@ -24,7 +24,6 @@ function Dashboard() {
         const upcomingRes = await matchAPI.getUpcoming(player.id);
         setUpcomingMatches(upcomingRes.data);
 
-
         const statsRes = await leagueAPI.getStats();
         setStats(statsRes.data);
 
