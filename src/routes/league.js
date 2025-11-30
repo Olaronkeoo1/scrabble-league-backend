@@ -3,26 +3,12 @@ import { supabase } from '../server.js';
 
 const router = express.Router();
 
-// Get league standings
+// Get league standings (simple)
 router.get('/standings', async (req, res) => {
   try {
     const { data, error } = await supabase
       .from('league_standings')
-      .select(`
-        id,
-        league_id,
-        player_id,
-        wins,
-        losses,
-        draws,
-        points,
-        games_played,
-        position,
-        players:player_id (
-          display_name,
-          email
-        )
-      `)
+      .select('*') // no nested players
       .order('position', { ascending: true });
 
     if (error) throw error;
@@ -34,7 +20,7 @@ router.get('/standings', async (req, res) => {
   }
 });
 
-/// Get stats for the single league (for dashboard)
+// Get stats for the single league (for dashboard)
 router.get('/stats', async (req, res) => {
   try {
     // Total players in the league
@@ -70,48 +56,14 @@ router.get('/stats', async (req, res) => {
   }
 });
 
-
-// Get stats for a specific player
-router.get('/stats/player/:playerId', async (req, res) => {
-  const { playerId } = req.params;
-
-  try {
-    const { data, error } = await supabase
-      .from('league_standings')
-      .select('*')
-      .eq('player_id', playerId);
-
-    if (error) throw error;
-
-    res.json(data || []);
-  } catch (err) {
-    console.error('player stats error', err);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Get top N players in a league
+// Get top N players in a league (simple)
 router.get('/top/:limit', async (req, res) => {
   const limit = parseInt(req.params.limit, 10) || 10;
 
   try {
     const { data, error } = await supabase
       .from('league_standings')
-      .select(`
-        id,
-        league_id,
-        player_id,
-        wins,
-        losses,
-        draws,
-        points,
-        games_played,
-        position,
-        players:player_id (
-          display_name,
-          email
-        )
-      `)
+      .select('*') // no nested players
       .order('points', { ascending: false })
       .limit(limit);
 
@@ -162,3 +114,4 @@ router.post('/add-player', async (req, res) => {
 });
 
 export default router;
+
