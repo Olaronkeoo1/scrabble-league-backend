@@ -34,52 +34,42 @@ router.get('/standings', async (req, res) => {
   }
 });
 
-// Get stats for a league (for dashboard)
-router.get('/stats/:leagueId', async (req, res) => {
-  const { leagueId } = req.params;
-
+/// Get stats for the single league (for dashboard)
+router.get('/stats', async (req, res) => {
   try {
-    // Total players in this league
-    const { data: playersData, error: playersError } = await supabase
+    // Total players in the league
+    const { count: playersCount, error: playersError } = await supabase
       .from('league_players')
-      .select('id', { count: 'exact', head: true })
-      .eq('league_id', leagueId);
+      .select('*', { count: 'exact', head: true });
 
     if (playersError) throw playersError;
 
-    const totalPlayers = playersData ? playersData.length : 0;
-
-    // Total matches in this league
-    const { data: matchesData, error: matchesError } = await supabase
+    // Total matches
+    const { count: matchesCount, error: matchesError } = await supabase
       .from('matches')
-      .select('id', { count: 'exact', head: true })
-      .eq('league_id', leagueId);
+      .select('*', { count: 'exact', head: true });
 
     if (matchesError) throw matchesError;
 
-    const totalMatches = matchesData ? matchesData.length : 0;
-
-    // Upcoming matches in this league
-    const { data: upcomingMatches, error: upcomingError } = await supabase
+    // Upcoming matches
+    const { count: upcomingCount, error: upcomingError } = await supabase
       .from('matches')
-      .select('id')
-      .eq('league_id', leagueId)
+      .select('*', { count: 'exact', head: true })
       .eq('status', 'scheduled');
 
     if (upcomingError) throw upcomingError;
 
-    const upcomingMatchesCount = upcomingMatches ? upcomingMatches.length : 0;
-
     res.json({
-      totalPlayers,
-      totalMatches,
-      upcomingMatches: upcomingMatchesCount,
+      totalPlayers: playersCount || 0,
+      totalMatches: matchesCount || 0,
+      upcomingMatches: upcomingCount || 0,
     });
   } catch (err) {
     console.error('league stats error', err);
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // Get stats for a specific player
 router.get('/stats/player/:playerId', async (req, res) => {
