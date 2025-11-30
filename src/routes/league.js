@@ -3,22 +3,6 @@ import { supabase } from '../server.js';
 
 const router = express.Router();
 
-// Get league standings (simple)
-router.get('/standings', async (req, res) => {
-  try {
-    const { data, error } = await supabase
-      .from('league_standings')
-      .select('*') // no nested players
-      .order('position', { ascending: true });
-
-    if (error) throw error;
-
-    res.json(data || []);
-  } catch (err) {
-    console.error('standings error', err);
-    res.status(500).json({ error: err.message });
-  }
-});
 
 // Get stats for the single league (for dashboard)
 router.get('/stats', async (req, res) => {
@@ -109,6 +93,35 @@ router.post('/add-player', async (req, res) => {
     res.json(data);
   } catch (err) {
     console.error('add-player error', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+// Get league standings with player names
+router.get('/standings', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('league_standings')
+      .select(`
+        id,
+        player_id,
+        wins,
+        losses,
+        draws,
+        points,
+        games_played,
+        position,
+        players!league_standings_player_id_fkey (
+          id,
+          display_name
+        )
+      `)
+      .order('position', { ascending: true });
+
+    if (error) throw error;
+
+    res.json(data || []);
+  } catch (err) {
+    console.error('standings error', err);
     res.status(500).json({ error: err.message });
   }
 });
