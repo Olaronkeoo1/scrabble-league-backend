@@ -3,6 +3,8 @@ import { supabase } from '../supabase-config';
 import { playerAPI, matchAPI, leagueAPI } from '../services/supabase-api';
 import './Dashboard.css';
 
+
+
 function Dashboard() {
   const [player, setPlayer] = useState(null);
   const [stats, setStats] = useState(null);
@@ -18,6 +20,10 @@ function Dashboard() {
 
         const profileRes = await playerAPI.getProfile();
         setPlayer(profileRes.data);
+
+        const upcomingRes = await matchAPI.getUpcoming(player.id);
+        setUpcomingMatches(upcomingRes.data);
+
 
         const statsRes = await leagueAPI.getStats();
         setStats(statsRes.data);
