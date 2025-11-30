@@ -78,10 +78,12 @@ router.put('/:matchId/result', verifyToken, verifyAdmin, async (req, res) => {
   }
 });
 
-// Get upcoming matches
+// GET /api/matches/upcoming?playerId=...
 router.get('/upcoming', async (req, res) => {
   try {
-    const { data, error } = await supabase
+    const { playerId } = req.query; // players.id
+
+    const query = supabase
       .from('matches')
       .select(`
         id,
@@ -89,18 +91,27 @@ router.get('/upcoming', async (req, res) => {
         player2_id,
         scheduled_date,
         status,
-        players1:player1_id(display_name),
-        players2:player2_id(display_name)
+        players1:players!matches_player1_id_fkey (id, display_name),
+        players2:players!matches_player2_id_fkey (id, display_name)
       `)
-      .eq('status', 'scheduled')
-      .order('scheduled_date', { ascending: true });
+      .eq('status', 'scheduled');
+
+    // If a playerId is provided, filter to only that player's fixtures
+    if (playerId) {
+      query.or(`player1_id.eq.${playerId},player2_id.eq.${playerId}`);
+    }
+
+    const { data, error } = await query;
 
     if (error) throw error;
-    res.json(data);
+
+    res.json(data || []);
   } catch (err) {
+    console.error('upcoming matches for player error', err);
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // Get match history
 router.get('/history/:playerId', async (req, res) => {
