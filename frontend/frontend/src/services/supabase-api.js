@@ -38,7 +38,7 @@ export const matchAPI = {
 
 export const leagueAPI = {
   getStandings: () => api.get('/api/league/standings'),
-  getStats: (playerId) => api.get(`/api/league/stats/${playerId}`),
+  getStats: () => api.get('/api/league/stats'),           // <- changed
   getTop: (limit = 10) => api.get(`/api/league/top/${limit}`),
   addPlayerToLeague: (playerId) =>
     api.post('/api/league/add-player', { player_id: playerId }),

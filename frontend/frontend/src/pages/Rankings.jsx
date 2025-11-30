@@ -39,18 +39,19 @@ function Rankings() {
           </tr>
         </thead>
         <tbody>
-          {standings.map((player, idx) => (
-            <tr key={player.id}>
-              <td>{idx + 1}</td>
-              <td>{player.players?.display_name || 'Unknown'}</td>
-              <td>{player.games_played}</td>
-              <td>{player.wins}</td>
-              <td>{player.draws}</td>
-              <td>{player.losses}</td>
-              <td className="points">{player.points}</td>
-            </tr>
-          ))}
-        </tbody>
+  {standings.map((row, idx) => (
+    <tr key={row.id}>
+     <td>{idx + 1}</td>
+      <td>{row.player_id}</td> {/* later you can replace this with the real name */}
+      <td>{row.games_played}</td>
+      <td>{row.wins}</td>
+      <td>{row.draws}</td>
+      <td>{row.losses}</td>
+      <td className="points">{row.points}</td>
+    </tr>
+  ))}
+</tbody>
+
       </table>
     </div>
   );

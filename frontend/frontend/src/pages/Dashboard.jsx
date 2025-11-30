@@ -19,7 +19,7 @@ function Dashboard() {
         const profileRes = await playerAPI.getProfile();
         setPlayer(profileRes.data);
 
-        const statsRes = await leagueAPI.getStats(sessionData.session.user.id);
+        const statsRes = await leagueAPI.getStats();
         setStats(statsRes.data);
 
         const matchesRes = await matchAPI.getUpcoming();
