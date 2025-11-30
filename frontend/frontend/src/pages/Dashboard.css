@@ -1,45 +1,39 @@
-/* Base: mobile-first */
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 .dashboard {
   animation: fadeIn 0.3s ease-in;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 1rem;
+  max-width: 100%;          /* NEW */
+  padding: 1rem;            /* NEW */
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .dashboard h1 {
   color: #333;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  text-align: left;
+  margin-bottom: 2rem;
+  font-size: 2rem;
 }
 
-/* Mobile: single column layout */
 .dashboard-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
 }
 
 .card {
-  background: #fff;
+  background: white;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 1.25rem;
+  padding: 2rem;
   transition: transform 0.3s, box-shadow 0.3s;
-  max-width: 100%;
+  max-width: 100%;          /* NEW: prevent card from overflowing */
+  box-sizing: border-box;   /* NEW */
 }
 
 .card:hover {
@@ -49,8 +43,8 @@
 
 .card h2 {
   color: #667eea;
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
 }
 
 .card p {
@@ -58,18 +52,17 @@
   color: #666;
 }
 
-/* Stats: stack on mobile */
 .stats {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1rem;
 }
 
 .stat {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.75rem;
+  padding: 1rem;
   background: #f9f9f9;
   border-radius: 6px;
   border-left: 4px solid #667eea;
@@ -78,101 +71,74 @@
 .stat .label {
   font-size: 0.85rem;
   color: #666;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .stat .value {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: bold;
   color: #667eea;
 }
 
-/* Upcoming matches: mobile */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card {
+    padding: 1.5rem;        /* NEW: slightly tighter on mobile */
+  }
+
+  .dashboard h1 {
+    font-size: 1.6rem;      /* NEW: scale title a bit */
+    text-align: center;
+  }
+}
 .upcoming-matches {
-  margin-top: 1.25rem;
+  margin-top: 1.5rem;
 }
 
 .upcoming-matches h2 {
-  margin-bottom: 0.75rem;
-  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
 }
 
+/* Keep list compact and fitting screen */
 .upcoming-matches-list {
   max-height: 50vh;
   overflow-y: auto;
-  padding-right: 0.25rem;
+  padding-right: 0.5rem;
 }
 
 .upcoming-match-item {
   display: flex;
   flex-direction: column;
-  padding: 0.6rem 0;
+  padding: 0.75rem 0;
   border-bottom: 1px solid #eee;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 
 .upcoming-match-item:last-child {
   border-bottom: none;
 }
 
-/* Small phones tweaks */
-@media (max-width: 480px) {
-  .dashboard {
-    padding: 0.85rem;
-  }
-
-  .card {
-    padding: 1.1rem;
-  }
-
-  .dashboard h1 {
-    font-size: 1.35rem;
-    text-align: center;
-  }
-}
-
-/* Tablet and up: enhance layout */
-@media (min-width: 768px) {
-  .dashboard {
-    max-width: 960px;
-    padding: 1.5rem;
-  }
-
-  .dashboard h1 {
-    font-size: 1.8rem;
-  }
-
-  .dashboard-grid {
-    display: grid;
-    grid-template-columns: 2fr 1.4fr;
-    gap: 1.5rem;
-  }
-
-  .stats {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
+@media (max-width: 768px) {
   .upcoming-match-item {
-    font-size: 0.9rem;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    font-size: 0.85rem;
   }
 }
 
-/* Desktop: a bit wider */
-@media (min-width: 1024px) {
-  .dashboard {
-    max-width: 1160px;
-    padding: 2rem 1.5rem;
-  }
-
-  .dashboard h1 {
-    font-size: 2rem;
+/* Extra small phones */
+@media (max-width: 480px) {
+  .stats {
+    grid-template-columns: 1fr;
   }
 
   .card {
-    padding: 1.5rem;
+    padding: 1.25rem;
   }
-}
-
+} 
