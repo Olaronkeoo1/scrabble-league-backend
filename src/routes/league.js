@@ -60,13 +60,14 @@ router.get('/top/:limit', async (req, res) => {
   }
 });
 
-// Add a player to league standings
 router.post('/add-player', async (req, res) => {
   const { league_id, player_id } = req.body;
+  console.log('add-player body:', req.body); // NEW
 
   if (!league_id || !player_id) {
     return res.status(400).json({ error: 'league_id and player_id are required' });
   }
+
 
   try {
     const { data, error } = await supabase
