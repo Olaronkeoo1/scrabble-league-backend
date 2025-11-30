@@ -5,17 +5,12 @@ import './Rankings.css';
 function Rankings() {
   const [standings, setStandings] = useState([]);
   const [loading, setLoading] = useState(true);
-  
- 
-
 
   useEffect(() => {
-      console.log('Standings data:', standings);
-}, [standings]);
     const fetchStandings = async () => {
       try {
         const res = await leagueAPI.getStandings();
-        setStandings(res.data);
+        setStandings(res.data || []);
       } catch (error) {
         console.error('Error fetching standings:', error);
       } finally {
@@ -25,6 +20,10 @@ function Rankings() {
 
     fetchStandings();
   }, []);
+
+  useEffect(() => {
+    console.log('Standings data:', standings);
+  }, [standings]);
 
   if (loading) return <div>Loading...</div>;
 
@@ -44,18 +43,18 @@ function Rankings() {
           </tr>
         </thead>
         <tbody>
-  {standings.map((row, idx) => (
-    <tr key={row.id}>
-      <td>{row.position ?? idx + 1}</td>
-      <td>{row.players?.display_name || row.player_id}</td> {/* <- change */}
-      <td>{row.games_played}</td>
-      <td>{row.wins}</td>
-      <td>{row.draws}</td>
-      <td>{row.losses}</td>
-      <td className="points">{row.points}</td>
-    </tr>
-  ))}
-</tbody>
+          {standings.map((row, idx) => (
+            <tr key={row.id}>
+              <td>{row.position ?? idx + 1}</td>
+              <td>{row.players?.display_name || row.player_id}</td>
+              <td>{row.games_played}</td>
+              <td>{row.wins}</td>
+              <td>{row.draws}</td>
+              <td>{row.losses}</td>
+              <td className="points">{row.points}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );
