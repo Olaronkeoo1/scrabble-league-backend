@@ -18,7 +18,7 @@ export const supabase = createClient(
 app.use(cors({
   origin: [
     'http://localhost:3000',              // for local dev
-    'https://scrabble-league.vercel.app'  // for production
+    'https://scrabble-league-backend.vercel.app'  // for production
   ],
   credentials: true,
   methods: ['GET', 'POST', 'OPTIONS'],
