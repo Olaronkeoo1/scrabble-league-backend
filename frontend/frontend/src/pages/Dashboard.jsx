@@ -11,33 +11,31 @@ function Dashboard() {
   const [upcomingMatches, setUpcomingMatches] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data: sessionData } = await supabase.auth.getSession();
-        
-        if (!sessionData.session) return;
+  const fetchData = async () => {
+    try {
+      const profileRes = await playerAPI.getProfile();
+      const currentPlayer = profileRes.data;
+      setPlayer(currentPlayer);
 
-        const profileRes = await playerAPI.getProfile();
-        setPlayer(profileRes.data);
+      const statsRes = await leagueAPI.getStats();
+      setStats(statsRes.data);
 
-        const upcomingRes = await matchAPI.getUpcoming(player.id);
-        setUpcomingMatches(upcomingRes.data);
+      const upcomingRes = await matchAPI.getUpcoming(currentPlayer.id);
+      setUpcomingMatches(upcomingRes.data);
+    } catch (err) {
+      console.error('Error fetching dashboard data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        const statsRes = await leagueAPI.getStats();
-        setStats(statsRes.data);
+  fetchData();
+}, []);
 
-        const matchesRes = await matchAPI.getUpcoming();
-        setUpcomingMatches(matchesRes.data);
-      } catch (error) {
-        console.error('Error fetching dashboard data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchData();
-  }, []);
 
   if (loading) return <div>Loading...</div>;
 
