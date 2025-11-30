@@ -97,6 +97,7 @@ router.post('/add-player', async (req, res) => {
   }
 });
 // Get league standings with player names
+// Get league standings with player names
 router.get('/standings', async (req, res) => {
   try {
     const { data, error } = await supabase
@@ -125,6 +126,7 @@ router.get('/standings', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 export default router;
 
