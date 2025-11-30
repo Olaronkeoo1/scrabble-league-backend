@@ -2,6 +2,13 @@
   color: #333;
   background-color: #f5f5f5;
 }
+.header,
+.navbar {
+  position: relative;  /* or just remove position entirely */
+  top: auto;
+  width: 100%;
+  z-index: 10;
+}
 
 body {
   margin: 0;
