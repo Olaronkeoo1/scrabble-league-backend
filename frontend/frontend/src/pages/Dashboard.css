@@ -1,5 +1,7 @@
 .dashboard {
   animation: fadeIn 0.3s ease-in;
+  max-width: 100%;          /* NEW */
+  padding: 1rem;            /* NEW */
 }
 
 @keyframes fadeIn {
@@ -30,6 +32,8 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 2rem;
   transition: transform 0.3s, box-shadow 0.3s;
+  max-width: 100%;          /* NEW: prevent card from overflowing */
+  box-sizing: border-box;   /* NEW */
 }
 
 .card:hover {
@@ -83,5 +87,25 @@
 
   .stats {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card {
+    padding: 1.5rem;        /* NEW: slightly tighter on mobile */
+  }
+
+  .dashboard h1 {
+    font-size: 1.6rem;      /* NEW: scale title a bit */
+    text-align: center;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 1.25rem;
   }
 }
