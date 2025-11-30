@@ -96,7 +96,6 @@ router.get('/upcoming', async (req, res) => {
       `)
       .eq('status', 'scheduled');
 
-    // If a playerId is provided, filter to only that player's fixtures
     if (playerId) {
       query.or(`player1_id.eq.${playerId},player2_id.eq.${playerId}`);
     }
@@ -111,6 +110,7 @@ router.get('/upcoming', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 
 // Get match history
