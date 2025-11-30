@@ -140,14 +140,20 @@ router.get('/', (req, res) => {
 async function updateStandings(match) {
   const { player1_id, player2_id, winner } = match;
 
-  // Calculate points
-  const getPoints = (playerWinner) => {
-    if (playerWinner === 'draw') return 1;
-    return playerWinner ? 2 : 0;
+  // Calculate points: 3 win, 1 draw, 0 loss
+  const getPoints = (result) => {
+    if (result === 'win') return 3;
+    if (result === 'draw') return 1;
+    return 0; // loss
   };
 
-  const player1Points = getPoints(winner === 'player1' ? true : winner === 'draw' ? 'draw' : false);
-  const player2Points = getPoints(winner === 'player2' ? true : winner === 'draw' ? 'draw' : false);
+  const player1Result =
+    winner === 'player1' ? 'win' : winner === 'draw' ? 'draw' : 'loss';
+  const player2Result =
+    winner === 'player2' ? 'win' : winner === 'draw' ? 'draw' : 'loss';
+
+  const player1Points = getPoints(player1Result);
+  const player2Points = getPoints(player2Result);
 
   // Update player 1 standings
   const { data: p1Standing } = await supabase
@@ -165,7 +171,7 @@ async function updateStandings(match) {
         draws: winner === 'draw' ? p1Standing.draws + 1 : p1Standing.draws,
         points: p1Standing.points + player1Points,
         games_played: p1Standing.games_played + 1,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('player_id', player1_id);
   }
@@ -186,7 +192,7 @@ async function updateStandings(match) {
         draws: winner === 'draw' ? p2Standing.draws + 1 : p2Standing.draws,
         points: p2Standing.points + player2Points,
         games_played: p2Standing.games_played + 1,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('player_id', player2_id);
   }
@@ -204,5 +210,6 @@ async function updateStandings(match) {
       .eq('id', allStandings[i].id);
   }
 }
+
 
 export default router;
