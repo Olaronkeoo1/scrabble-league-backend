@@ -72,27 +72,18 @@ function Dashboard() {
 
 
 
+       <div className="card">
+  <h2>Upcoming Matches</h2>
+  <div className="upcoming-matches-list">
+    {upcomingMatches.map((m) => (
+      <div key={m.id} className="upcoming-match-item">
+        <div>{m.players1?.display_name} vs {m.players2?.display_name}</div>
+        <div>{new Date(m.scheduled_date).toLocaleString()}</div>
+      </div>
+    ))}
+  </div>
+</div>
 
-
-
-
-        <div className="card">
-          <h2>Upcoming Matches</h2>
-          {upcomingMatches.length > 0 ? (
-            <ul className="matches-list">
-              {upcomingMatches.map(match => (
-                <li key={match.id}>
-                  <span>
-                    {match.players1?.display_name} vs {match.players2?.display_name}
-                  </span>
-                  <span>{new Date(match.scheduled_date).toLocaleDateString()}</span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No upcoming matches</p>
-          )}
-        </div>
       </div>
     </div>
   );
