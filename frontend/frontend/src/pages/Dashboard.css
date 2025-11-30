@@ -98,6 +98,39 @@
     text-align: center;
   }
 }
+.upcoming-matches {
+  margin-top: 1.5rem;
+}
+
+.upcoming-matches h2 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+/* Keep list compact and fitting screen */
+.upcoming-matches-list {
+  max-height: 50vh;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.upcoming-match-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+}
+
+.upcoming-match-item:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .upcoming-match-item {
+    font-size: 0.85rem;
+  }
+}
 
 /* Extra small phones */
 @media (max-width: 480px) {
