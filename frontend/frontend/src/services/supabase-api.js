@@ -27,6 +27,8 @@ export const playerAPI = {
 };
 
 export const matchAPI = {
+  getUpcoming: (playerId) =>
+    api.get('/api/matches/upcoming', { params: { playerId } }),
   scheduleMatch: (payload) =>
     api.post('/api/matches/schedule', payload),
   recordResult: (matchId, data) =>
