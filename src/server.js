@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
+import dashboardRouter from './routes/dashboard.js';
 
 
 dotenv.config();
@@ -44,6 +45,8 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+
+app.use('/api/dashboard', dashboardRouter);
 router.post('/api/league/add-player', async (req, res) => {
   const { player_id } = req.body;
   try {
