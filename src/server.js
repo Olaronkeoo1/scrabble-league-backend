@@ -23,7 +23,7 @@ app.use(cors({
     'https://scrabble-league-backend.vercel.app'  // for production
   ],
   credentials: true,
-  methods: ['GET', 'POST',"PUT', 'OPTIONS'],
+  methods: ['GET', 'POST','PUT', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
